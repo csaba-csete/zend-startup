@@ -1,0 +1,6 @@
+default['project']['domain']     = "zendstartup.local.com"
+default['project']['dir']        = "/vagrant"
+default['project']['env']        = "development"
+
+default['composer']['dir']        = "/usr/local/bin"
+default['composer']['executable'] = "composer.phar"

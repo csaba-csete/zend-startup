@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+    ServerName <%= node["project"]["domain"] %>
+
+    DocumentRoot <%= node["project"]["dir"] %>/public
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride All
+    </Directory>
+    <Directory <%= node["project"]["dir"] %>/public>
+        SetEnv APPLICATION_ENV <%= node["project"]["env"] %>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    Alias /icons/ "/usr/share/apache2/icons/"
+
+    ErrorLog <%= node[:apache][:log_dir] %>/error.log
+    CustomLog <%= node[:apache][:log_dir] %>/custom.log combined
+    LogLevel warn
+</VirtualHost>

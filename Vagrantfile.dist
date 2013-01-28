@@ -1,0 +1,33 @@
+Vagrant::Config.run do |config|
+  config.vm.customize [
+    "modifyvm", :id,
+    "--memory", "1024",
+    "--cpus", "2"
+  ]
+  config.vm.box = "ubuntu-12.04-amd64-VBoxGA-4.1.14"
+  config.vm.box_url = "http://vagrant.nordlogic.com/ubuntu-12.04-amd64-VBoxGA-4.1.14.box"
+
+  config.vm.network :hostonly, "33.33.33.10"
+
+  config.ssh.max_tries = 50
+  config.ssh.timeout   = 300
+
+  config.vm.share_folder "v-root", "/vagrant", ".", :group => "www-data", :extra => 'dmode=775,fmode=775'
+
+  config.vm.provision :chef_solo do |chef|
+     chef.cookbooks_path = "data/cookbooks"
+     chef.add_recipe("vagrant_main")
+     chef.log_level = :debug
+     chef.json.merge!({ 
+        :mysql => { 
+                :server_root_password => "root",
+                :allow_remote_root => true,
+                :bind_address => "0.0.0.0" 
+        },
+        :phpmyadmin => {
+                :host => "33.33.33.10",
+                :servername => "pma.zendstartup.local.com"
+        }
+     })
+  end
+end
