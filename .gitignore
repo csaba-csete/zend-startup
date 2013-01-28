@@ -1,3 +1,5 @@
 .vagrant
 .idea
 tests/reports/coverage/*
+Vagrantfile
+data/cookbooks/vagrant_main/attributes/default.rb
